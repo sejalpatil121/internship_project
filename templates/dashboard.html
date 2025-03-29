@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intellecta Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Intellecta: Info Scratcher Tool 📈</h1>
+        <form id="qa-form">
+            <input type="text" name="url" id="url" placeholder="Enter URL" required/><br/>
+            <textarea name="question" id="question" placeholder="Enter your question" required></textarea><br/>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="response-container">
+            <!-- Answer will be displayed here -->
+        </div>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
