@@ -1,16 +1,32 @@
+// backend/controllers/api.controller.js
 const { processQuestion } = require('../services/flask.service');
+const redisService = require('../services/redis.service');
 
 exports.askQuestion = async (req, res) => {
   try {
     const { url, question } = req.body;
-    
-    if (!url || !question) {
-      return res.status(400).json({ error: 'URL and question are required' });
+    const cacheKey = `qa:${url}:${question}`;
+
+    // Check cache
+    const cached = await redisService.get(cacheKey);
+    if (cached) {
+      return res.json({
+        cached: true,
+        response: JSON.parse(cached)
+      });
     }
 
-    const result = await processQuestion(url, question);
-    res.status(200).json(result);
+    // Process new request
+    const response = await processQuestion(url, question);
+    
+    // Cache response (1 hour)
+    await redisService.setex(cacheKey, 3600, JSON.stringify(response));
+    
+    res.json(response);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Error in askQuestion:', error);
+    res.status(500).json({
+      error: error.message || 'Failed to process question'
+    });
   }
 };

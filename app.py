@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 import os
+import redis
+import json
 from flask_cors import CORS
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -14,6 +16,14 @@ from langchain.prompts import PromptTemplate
 load_dotenv()
 app = Flask(__name__)
 CORS(app)
+
+# Configure Redis
+redis_client = redis.StrictRedis(
+    host=os.getenv('REDIS_HOST', 'localhost'),
+    port=os.getenv('REDIS_PORT', 6379),
+    db=0,
+    decode_responses=True
+)
 
 # Configure Google Generative AI
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
@@ -68,6 +78,19 @@ def process():
     if not url_input or not question:
         return jsonify({'error': 'Both URL and question are required'}), 400
     
+    # Create unique cache key
+    cache_key = f"qa:{url_input}:{question}"
+    
+    # Check Redis cache first
+    cached_response = redis_client.get(cache_key)
+    if cached_response:
+        print("Cache HIT - Returning cached response")
+        return jsonify({
+            'cached': True,
+            'response': json.loads(cached_response)
+        })
+    
+    print("Cache MISS - Processing request")
     text = get_url(url_input)
     if not text:
         return jsonify({'error': 'Failed to load content from URL'}), 400
@@ -81,6 +104,9 @@ def process():
     
     chain = get_conversational_chain()
     response = chain({"input_documents": docs, "question": question}, return_only_outputs=True)
+    
+    # Cache response for 1 hour (3600 seconds)
+    redis_client.setex(cache_key, 3600, json.dumps(response))
     
     return jsonify(response)
 
