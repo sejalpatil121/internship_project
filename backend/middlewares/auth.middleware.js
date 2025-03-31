@@ -1,19 +1,17 @@
 const { verifyToken } = require('../config/jwt');
 
-exports.authenticate = async (req, res, next) => {
-  try {
-    let token;
-    
-    // Check for token in headers
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
-    }
-    
-    if (!token) {
-      return res.status(401).json({ error: 'Not authorized, no token' });
-    }
+exports.authenticate = (req, res, next) => {
+  let token;
 
-    // Verify token
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return res.status(401).json({ error: 'Not authorized, no token' });
+  }
+
+  try {
     const decoded = verifyToken(token);
     req.user = decoded;
     next();
