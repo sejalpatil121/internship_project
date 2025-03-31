@@ -1,12 +1,13 @@
-// backend/routes/auth.routes.js
 const express = require('express');
 const router = express.Router();
-const { register, login, getMe } = require('../controllers/auth.controller');
+const { register, login, getMe, registerAdmin, adminLogin } = require('../controllers/auth.controller');
 const { authenticate } = require('../middlewares/auth.middleware');
 const rateLimiter = require('../middlewares/rateLimiter');
 
-router.post('/register', rateLimiter, register); // Correct order
-router.post('/login', rateLimiter, login);    // Correct order
+router.post('/register', rateLimiter, register);
+router.post('/login', rateLimiter, login);
 router.get('/me', authenticate, getMe);
+router.post('/register-admin', registerAdmin);
+router.post('/admin-login', adminLogin);
 
 module.exports = router;
