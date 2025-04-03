@@ -7,4 +7,4 @@ const rateLimiter = require('../middlewares/rateLimiter');
 
 router.post('/ask', rateLimiter, authenticate, askQuestion); // Correct order
 
-module.exports = router;
+
