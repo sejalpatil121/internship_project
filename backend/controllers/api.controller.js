@@ -1,6 +1,7 @@
 // backend/controllers/api.controller.js
 const { processQuestion } = require('../services/flask.service');
 const redisService = require('../services/redis.service');
+const { addAIJob } = require('../services/queue.service');
 
 exports.askQuestion = async (req, res) => {
   try {
@@ -12,21 +13,28 @@ exports.askQuestion = async (req, res) => {
     if (cached) {
       return res.json({
         cached: true,
-        response: JSON.parse(cached)
+        response: JSON.parse(cached),
       });
     }
 
-    // Process new request
-    const response = await processQuestion(url, question);
-    
-    // Cache response (1 hour)
-    await redisService.setex(cacheKey, 3600, JSON.stringify(response));
-    
-    res.json(response);
+    // Add job to queue
+    const job = await addAIJob({
+      url,
+      question,
+    });
+
+    // Respond with job details
+    res.json({
+      jobId: job.id,
+      statusUrl: `/api/jobs/${job.id}`,
+      message: 'Processing started',
+    });
+
+    // The worker will process the job, cache the result, and complete.
   } catch (error) {
     console.error('Error in askQuestion:', error);
     res.status(500).json({
-      error: error.message || 'Failed to process question'
+      error: error.message || 'Failed to process question',
     });
   }
 };
