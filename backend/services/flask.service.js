@@ -3,7 +3,7 @@ const axios = require('axios');
 require('dotenv').config();
 
 const FLASK_API_URL = process.env.FLASK_API_URL || 'http://localhost:5001/process';
-const TIMEOUT = process.env.FLASK_TIMEOUT || 10000; // 10 seconds
+const TIMEOUT = process.env.FLASK_TIMEOUT || 20000; // 10 seconds
 
 exports.processQuestion = async (url, question) => {
     try {

@@ -41,3 +41,22 @@ module.exports = {
   addAIJob
 };
 */
+
+
+// const { Queue } = require('bullmq');
+// const IORedis = require('ioredis');
+
+// const connection = new IORedis(process.env.REDIS_URL || 'redis://localhost:6379');
+// const aiQueue = new Queue('ai-processing', { connection });
+
+// const addAIJob = async (jobData) => {
+//   return await aiQueue.add('process-question', jobData, {
+//     attempts: 3, // Retry failed jobs up to 3 times
+//     backoff: 5000, // Wait 5 seconds between retries
+//   });
+// };
+
+// module.exports = {
+//   aiQueue,
+//   addAIJob,
+// };

@@ -1,11 +1,17 @@
-// backend/controllers/api.controller.js
 const { processQuestion } = require('../services/flask.service');
 const redisService = require('../services/redis.service');
-const { addAIJob } = require('../services/queue.service');
 
 exports.askQuestion = async (req, res) => {
   try {
     const { url, question } = req.body;
+
+    // Input validation
+    if (!url || !question) {
+      return res.status(400).json({
+        error: 'Both URL and question are required.',
+      });
+    }
+
     const cacheKey = `qa:${url}:${question}`;
 
     // Check cache
@@ -17,20 +23,17 @@ exports.askQuestion = async (req, res) => {
       });
     }
 
-    // Add job to queue
-    const job = await addAIJob({
-      url,
-      question,
-    });
+    // Process the question directly
+    const response = await processQuestion(url, question);
 
-    // Respond with job details
+    // Cache the result
+    await redisService.setex(cacheKey, 3600, JSON.stringify(response)); // Cache for 1 hour
+
+    // Respond with the result
     res.json({
-      jobId: job.id,
-      statusUrl: `/api/jobs/${job.id}`,
-      message: 'Processing started',
+      cached: false,
+      response,
     });
-
-    // The worker will process the job, cache the result, and complete.
   } catch (error) {
     console.error('Error in askQuestion:', error);
     res.status(500).json({
