@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "../styles/AskPage.css"; // Import the CSS file
 
 const AskPage = () => {
   const [url, setUrl] = useState("");
@@ -36,11 +37,11 @@ const AskPage = () => {
   };
 
   return (
-    <div>
-      <h1>Ask a Question About a Webpage</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="url">URL:</label>
+    <div className="ask-page-container">
+      <h1 className="ask-page-title">Ask a Question About a Webpage</h1>
+      <form onSubmit={handleSubmit} className="ask-form">
+        <div className="input-group">
+          <label htmlFor="url" className="input-label">URL:</label>
           <input
             type="text"
             id="url"
@@ -48,11 +49,12 @@ const AskPage = () => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://example.com"
+            className="input-field"
             required
           />
         </div>
-        <div>
-          <label htmlFor="question">Question:</label>
+        <div className="input-group">
+          <label htmlFor="question" className="input-label">Question:</label>
           <input
             type="text"
             id="question"
@@ -60,19 +62,20 @@ const AskPage = () => {
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="What is this page about?"
+            className="input-field"
             required
           />
         </div>
-        <button type="submit">Ask</button>
+        <button type="submit" className="submit-button">Ask</button>
       </form>
 
       {response && (
-        <div>
-          <h2>Response:</h2>
+        <div className="response-section">
+          <h2 className="response-title">Response:</h2>
           {response.error ? (
-            <p style={{ color: "red" }}>{response.error}</p>
+            <p className="response-error">{response.error}</p>
           ) : (
-            <pre>{JSON.stringify(response, null, 2)}</pre>
+            <pre className="response-content">{JSON.stringify(response, null, 2)}</pre>
           )}
         </div>
       )}

@@ -1,0 +1,71 @@
+/* Container Styling */
+.admin-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f1f0fb;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Form Box Styling */
+.admin-login-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 20px;
+}
+
+/* Header Styling */
+.admin-login-box h1 {
+  text-align: center;
+  color: #1a1f2c;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+/* Form Input Styling */
+.admin-login-box .form-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-login-box .form-input label {
+  color: #403e43;
+  font-size: 16px;
+}
+
+.admin-login-box .form-input input {
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #d6bcfa;
+  font-size: 16px;
+}
+
+/* Error message styling */
+.admin-login-box .error-message {
+  color: #ea384c;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Button Styling */
+.admin-login-box button {
+  background-color: #9b87f5;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.admin-login-box button:hover {
+  background-color: #7a6ad8;
+}

@@ -1,0 +1,125 @@
+/* Container for the entire dashboard */
+.admin-dashboard-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f4f7fc;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 250px;
+  background-color: #2d2d72;
+  color: white;
+  padding: 20px;
+  height: 100%;
+}
+
+.sidebar-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-nav li {
+  margin: 15px 0;
+}
+
+.sidebar-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background-color: #4848b7;
+}
+
+/* Main Content Styling */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.top-nav h1 {
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info span {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.user-info button {
+  padding: 8px 16px;
+  background-color: #ff4747;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-info button:hover {
+  background-color: #f23a3a;
+}
+
+/* Dashboard Overview Section */
+.overview {
+  margin-top: 20px;
+}
+
+.overview h2 {
+  font-size: 1.6rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.overview-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  text-align: center;
+}
+
+.stat-box h3 {
+  font-size: 1.4rem;
+  color: #555;
+}
+
+.stat-box p {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}

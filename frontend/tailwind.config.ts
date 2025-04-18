@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
-export default {
-  darkMode: "class", // Correct dark mode setup
+const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -9,7 +9,16 @@ export default {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'custom-bg': '#f8fafc',
+        'custom-text': '#1f2937',
+        'custom-purple': '#6366f1',
+        'custom-purple-dark': '#4f46e5',
+      },
+    },
   },
   plugins: [],
-} satisfies Config;
+};
+
+export default config;
