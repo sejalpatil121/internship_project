@@ -17,12 +17,16 @@ const Login = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/auth/login",
-        formData
+        formData,
+        {
+          withCredentials: true 
+        }
       );
       localStorage.setItem("userToken", response.data.token);
       alert("Login successful!");
     } catch (error) {
       console.error("Error logging in", error);
+      alert(error.response?.data?.error || "Login failed.");
     }
   };
 
